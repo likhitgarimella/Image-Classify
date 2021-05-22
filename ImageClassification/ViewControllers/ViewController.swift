@@ -1,16 +1,7 @@
-// Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+//  Image Classification
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//  Created by Likhit Garimella on 22/05/21.
 //
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 
 import AVFoundation
 import UIKit
@@ -25,19 +16,20 @@ class ViewController: UIViewController {
 
   @IBOutlet weak var bottomSheetViewBottomSpace: NSLayoutConstraint!
   @IBOutlet weak var bottomSheetStateImageView: UIImageView!
-  // MARK: Constants
+    
+  // MARK:- Constants
   private let animationDuration = 0.5
   private let collapseTransitionThreshold: CGFloat = -40.0
   private let expandThransitionThreshold: CGFloat = 40.0
   private let delayBetweenInferencesMs: Double = 1000
 
-  // MARK: Instance Variables
+  // MARK:- Instance Variables
   // Holds the results at any time
   private var result: Result?
   private var initialBottomSpace: CGFloat = 0.0
   private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
-  // MARK: Controllers that manage functionality
+  // MARK:- Controllers that manage functionality
   // Handles all the camera related functionality
   private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
 
@@ -48,8 +40,9 @@ class ViewController: UIViewController {
   // Handles the presenting of results on the screen
   private var inferenceViewController: InferenceViewController?
 
-  // MARK: View Handling Methods
+  // MARK:- View Handling Methods
   override func viewDidLoad() {
+    
     super.viewDidLoad()
 
     guard modelDataHandler != nil else {
@@ -66,9 +59,11 @@ class ViewController: UIViewController {
     cameraCapture.delegate = self
 
     addPanGesture()
+    
   }
 
   override func viewWillAppear(_ animated: Bool) {
+    
     super.viewWillAppear(animated)
 
     changeBottomViewState()
@@ -76,6 +71,7 @@ class ViewController: UIViewController {
 #if !targetEnvironment(simulator)
     cameraCapture.checkCameraConfigurationAndStartSession()
 #endif
+    
   }
 
 #if !targetEnvironment(simulator)
@@ -100,7 +96,7 @@ class ViewController: UIViewController {
     self.present(alert, animated: true)
   }
 
-  // MARK: Storyboard Segue Handlers
+  // MARK:- Storyboard Segue Handlers
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     super.prepare(for: segue, sender: sender)
 
@@ -120,10 +116,10 @@ class ViewController: UIViewController {
   }
 
   @objc func classifyPasteboardImage() {
+    
     guard let image = UIPasteboard.general.images?.first else {
       return
     }
-
     guard let buffer = CVImageBuffer.buffer(from: image) else {
       return
     }
@@ -133,6 +129,7 @@ class ViewController: UIViewController {
     DispatchQueue.global().async {
       self.didOutput(pixelBuffer: buffer)
     }
+    
   }
 
   deinit {
@@ -141,7 +138,7 @@ class ViewController: UIViewController {
 
 }
 
-// MARK: InferenceViewControllerDelegate Methods
+// MARK:- InferenceViewControllerDelegate Methods
 extension ViewController: InferenceViewControllerDelegate {
 
   func didChangeThreadCount(to count: Int) {
@@ -152,9 +149,10 @@ extension ViewController: InferenceViewControllerDelegate {
       threadCount: count
     )
   }
+    
 }
 
-// MARK: CameraFeedManagerDelegate Methods
+// MARK:- CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
 
   func didOutput(pixelBuffer: CVPixelBuffer) {
@@ -224,9 +222,10 @@ extension ViewController: CameraFeedManagerDelegate {
     self.present(alert, animated: true)
     previewView.shouldUseClipboardImage = true
   }
+    
 }
 
-// MARK: Bottom Sheet Interaction Methods
+// MARK:- Bottom Sheet Interaction Methods
 extension ViewController {
 
   // MARK: Bottom Sheet Interaction Methods
@@ -236,9 +235,9 @@ extension ViewController {
   private func addPanGesture() {
     let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.didPan(panGesture:)))
     bottomSheetView.addGestureRecognizer(panGesture)
+    
   }
-
-
+    
   /** Change whether bottom sheet should be in expanded or collapsed state.
    */
   private func changeBottomViewState() {
@@ -255,6 +254,7 @@ extension ViewController {
       bottomSheetViewBottomSpace.constant = inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height
     }
     setImageBasedOnBottomViewState()
+    
   }
 
   /**
@@ -268,6 +268,7 @@ extension ViewController {
     else {
       bottomSheetStateImageView.image = UIImage(named: "up_icon")
     }
+    
   }
 
   /**
@@ -293,6 +294,7 @@ extension ViewController {
     default:
       break
     }
+    
   }
 
   /**
@@ -305,6 +307,7 @@ extension ViewController {
       return
     }
     setBottomSheetLayout(withBottomSpace: bottomSpace)
+    
   }
 
   /**
@@ -315,6 +318,7 @@ extension ViewController {
     // Changes bottom sheet state to either fully open or closed at the end of pan.
     let bottomSpace = bottomSpaceAtEndOfPan(withVerticalTranslation: verticalTranslation)
     setBottomSheetLayout(withBottomSpace: bottomSpace)
+    
   }
 
   /**
@@ -346,6 +350,7 @@ extension ViewController {
     }
 
     return bottomSpace
+    
   }
 
   /**
@@ -356,6 +361,7 @@ extension ViewController {
     view.setNeedsLayout()
     bottomSheetViewBottomSpace.constant = bottomSpace
     view.setNeedsLayout()
+    
   }
 
-}
+}   // #368
