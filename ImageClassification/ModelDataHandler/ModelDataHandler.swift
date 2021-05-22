@@ -1,16 +1,7 @@
-// Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+//  Image Classification
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//  Created by Likhit Garimella on 22/05/21.
 //
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 
 import CoreImage
 import TensorFlowLite
@@ -74,6 +65,7 @@ class ModelDataHandler {
   /// A failable initializer for `ModelDataHandler`. A new instance is created if the model and
   /// labels files are successfully loaded from the app's main bundle. Default `threadCount` is 1.
   init?(modelFileInfo: FileInfo, labelsFileInfo: FileInfo, threadCount: Int = 1) {
+    
     let modelFilename = modelFileInfo.name
 
     // Construct the path to the model file.
@@ -87,7 +79,7 @@ class ModelDataHandler {
 
     // Specify the options for the `Interpreter`.
     self.threadCount = threadCount
-    var options = InterpreterOptions()
+    var options = Interpreter.Options()
     options.threadCount = threadCount
     do {
       // Create the `Interpreter`.
@@ -100,6 +92,7 @@ class ModelDataHandler {
     }
     // Load the classes listed in the labels file.
     loadLabels(fileInfo: labelsFileInfo)
+    
   }
 
   // MARK: - Internal Methods
@@ -175,6 +168,7 @@ class ModelDataHandler {
 
     // Return the inference time and inference results.
     return Result(inferenceTime: interval, inferences: topNInferences)
+    
   }
 
   // MARK: - Private Methods
@@ -283,11 +277,13 @@ class ModelDataHandler {
     }
     return Data(copyingBufferOf: floats)
   }
+    
 }
 
 // MARK: - Extensions
 
 extension Data {
+    
   /// Creates a new buffer by copying the buffer pointer of the given array.
   ///
   /// - Warning: The given array's element type `T` must be trivial in that it can be copied bit
@@ -297,9 +293,11 @@ extension Data {
   init<T>(copyingBufferOf array: [T]) {
     self = array.withUnsafeBufferPointer(Data.init)
   }
+    
 }
 
 extension Array {
+    
   /// Creates a new array from the bytes of the given unsafe data.
   ///
   /// - Warning: The array's `Element` type must be trivial in that it can be copied bit for bit
@@ -321,4 +319,5 @@ extension Array {
     }
     #endif  // swift(>=5.0)
   }
-}
+    
+}   // 324
