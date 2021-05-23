@@ -6,7 +6,7 @@
 import UIKit
 import AVFoundation
 
-// MARK: CameraFeedManagerDelegate Declaration
+// MARK:- CameraFeedManagerDelegate Declaration
 protocol CameraFeedManagerDelegate: class {
 
   /**
@@ -45,7 +45,6 @@ protocol CameraFeedManagerDelegate: class {
  This enum holds the state of the camera initialization.
  */
 enum CameraConfiguration {
-
   case success
   case failed
   case permissionDenied
@@ -64,10 +63,10 @@ class CameraFeedManager: NSObject {
   private lazy var videoDataOutput = AVCaptureVideoDataOutput()
   private var isSessionRunning = false
 
-  // MARK: CameraFeedManagerDelegate
+  // MARK:- CameraFeedManagerDelegate
   weak var delegate: CameraFeedManagerDelegate?
 
-  // MARK: Initializer
+  // MARK:- Initializer
   init(previewView: PreviewView) {
     self.previewView = previewView
     super.init()
@@ -80,7 +79,7 @@ class CameraFeedManager: NSObject {
     self.attemptToConfigureSession()
   }
 
-  // MARK: Session Start and End methods
+  // MARK:- Session Start and End methods
 
   /**
  This method starts an AVCaptureSession based on whether the camera configuration was successful.
@@ -114,14 +113,12 @@ class CameraFeedManager: NSObject {
         self.isSessionRunning = self.session.isRunning
       }
     }
-
   }
 
   /**
    This method resumes an interrupted AVCaptureSession.
    */
   func resumeInterruptedSession(withCompletion completion: @escaping (Bool) -> ()) {
-
     sessionQueue.async {
       self.startSession()
 
@@ -139,7 +136,7 @@ class CameraFeedManager: NSObject {
     self.isSessionRunning = self.session.isRunning
   }
 
-  // MARK: Session Configuration Methods.
+  // MARK:- Session Configuration Methods.
   /**
  This method requests for camera permissions and handles the configuration of the session and stores the result of configuration.
  */
@@ -205,6 +202,7 @@ class CameraFeedManager: NSObject {
 
     session.commitConfiguration()
     self.cameraConfiguration = .success
+    
   }
 
   /**
@@ -228,9 +226,11 @@ class CameraFeedManager: NSObject {
         return false
       }
     }
+    
     catch {
       fatalError("Cannot create video device input")
     }
+    
   }
 
   /**
@@ -249,9 +249,10 @@ class CameraFeedManager: NSObject {
       return true
     }
     return false
+    
   }
 
-  // MARK: Notification Observer Handling
+  // MARK:- Notification Observer Handling
   private func addObservers() {
     NotificationCenter.default.addObserver(self, selector: #selector(CameraFeedManager.sessionRuntimeErrorOccured(notification:)), name: NSNotification.Name.AVCaptureSessionRuntimeError, object: session)
     NotificationCenter.default.addObserver(self, selector: #selector(CameraFeedManager.sessionWasInterrupted(notification:)), name: NSNotification.Name.AVCaptureSessionWasInterrupted, object: session)
@@ -264,7 +265,7 @@ class CameraFeedManager: NSObject {
     NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVCaptureSessionInterruptionEnded, object: session)
   }
 
-  // MARK: Notification Observers
+  // MARK:- Notification Observers
   @objc func sessionWasInterrupted(notification: Notification) {
 
     if let userInfoValue = notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as AnyObject?,
@@ -285,11 +286,11 @@ class CameraFeedManager: NSObject {
   }
 
   @objc func sessionInterruptionEnded(notification: Notification) {
-
     self.delegate?.sessionInterruptionEnded()
   }
 
   @objc func sessionRuntimeErrorOccured(notification: Notification) {
+    
     guard let error = notification.userInfo?[AVCaptureSessionErrorKey] as? AVError else {
       return
     }
@@ -310,9 +311,10 @@ class CameraFeedManager: NSObject {
       self.delegate?.sessionRunTimeErrorOccured()
 
     }
+    
   }
+    
 }
-
 
 /**
  AVCaptureVideoDataOutputSampleBufferDelegate
@@ -334,4 +336,4 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
     delegate?.didOutput(pixelBuffer: imagePixelBuffer)
   }
 
-}
+}   // #340
