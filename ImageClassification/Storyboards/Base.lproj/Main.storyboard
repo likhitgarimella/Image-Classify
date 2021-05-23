@@ -72,7 +72,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDd-uV-ojM">
                                 <rect key="frame" x="0.0" y="-45" width="375" height="100"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tfl_logo" translatesAutoresizingMaskIntoConstraints="NO" id="G8c-DH-tst">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Label" translatesAutoresizingMaskIntoConstraints="NO" id="G8c-DH-tst">
                                         <rect key="frame" x="16" y="56" width="160" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="5IJ-w5-3I7"/>
@@ -243,8 +243,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Label" width="160" height="24"/>
         <image name="down_icon" width="20" height="6"/>
-        <image name="tfl_logo" width="265.5" height="42.5"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
