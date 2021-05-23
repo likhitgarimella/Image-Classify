@@ -8,16 +8,14 @@ import UIKit
 // MARK: InferenceViewControllerDelegate Method Declarations
 protocol InferenceViewControllerDelegate {
 
-  /**
-   This method is called when the user changes the stepper value to update number of threads used for inference.
-   */
+  /** This method is called when the user changes the stepper value to update number of threads used for inference. */
   func didChangeThreadCount(to count: Int)
 
 }
 
 class InferenceViewController: UIViewController {
 
-  // MARK: Sections and Information to display
+  // MARK:- Sections and Information to display
   private enum InferenceSections: Int, CaseIterable {
     case Results
     case InferenceInfo
@@ -45,12 +43,12 @@ class InferenceViewController: UIViewController {
     }
   }
 
-  // MARK: Storyboard Outlets
+  // MARK:- Storyboard Outlets
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var threadStepper: UIStepper!
   @IBOutlet weak var stepperValueLabel: UILabel!
 
-  // MARK: Constants
+  // MARK:- Constants
   private let normalCellHeight: CGFloat = 27.0
   private let separatorCellHeight: CGFloat = 42.0
   private let bottomSpacing: CGFloat = 21.0
@@ -60,7 +58,7 @@ class InferenceViewController: UIViewController {
   private let infoFont = UIFont.systemFont(ofSize: 14.0, weight: .regular)
   private let highlightedFont = UIFont.systemFont(ofSize: 14.0, weight: .medium)
 
-  // MARK: Instance Variables
+  // MARK:- Instance Variables
   var inferenceResult: Result? = nil
   var wantedInputWidth: Int = 0
   var wantedInputHeight: Int = 0
@@ -70,13 +68,12 @@ class InferenceViewController: UIViewController {
   private var currentThreadCount: Int = 0
   private var infoTextColor = UIColor.black
 
-  // MARK: Delegate
+  // MARK:- Delegate
   var delegate: InferenceViewControllerDelegate?
 
-  // MARK: Computed properties
+  // MARK:- Computed properties
   var collapsedHeight: CGFloat {
     return normalCellHeight * CGFloat(maxResults - 1) + separatorCellHeight + bottomSheetButtonDisplayHeight
-
   }
 
   override func viewDidLoad() {
@@ -95,19 +92,16 @@ class InferenceViewController: UIViewController {
     
   }
 
-  // MARK: Buttion Actions
-  /**
-   Delegate the change of number of threads to View Controller and change the stepper display.
-   */
+  // MARK:- Buttion Actions
+  /** Delegate the change of number of threads to View Controller and change the stepper display. */
   @IBAction func onClickThreadStepper(_ sender: Any) {
-
     delegate?.didChangeThreadCount(to: Int(threadStepper.value))
     currentThreadCount = Int(threadStepper.value)
     stepperValueLabel.text = "\(currentThreadCount)"
   }
 }
 
-// MARK: UITableView Data Source
+// MARK:- UITableView Data Source
 extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
 
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -129,6 +123,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       rowCount = InferenceInfo.allCases.count
     }
     return rowCount
+    
   }
 
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -156,6 +151,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       }
     }
     return height
+    
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -198,12 +194,11 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     cell.fieldNameLabel.text = fieldName
     cell.infoLabel.text = info
     return cell
+    
   }
 
-  // MARK: Format Display of information in the bottom sheet
-  /**
-   This method formats the display of the inferences for the current frame.
-   */
+  // MARK:- Format Display of information in the bottom sheet
+  /** This method formats the display of the inferences for the current frame. */
   func displayStringsForResults(atRow row: Int) -> (String, String) {
 
     var fieldName: String = ""
@@ -233,11 +228,10 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     return (fieldName, info)
+    
   }
 
-  /**
-   This method formats the display of additional information relating to the inferences.
-   */
+  /** This method formats the display of additional information relating to the inferences. */
   func displayStringsForInferenceInfo(atRow row: Int) -> (String, String) {
 
     var fieldName: String = ""
@@ -263,7 +257,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     return(fieldName, info)
+    
   }
-}
-
-
+    
+}   // #264
